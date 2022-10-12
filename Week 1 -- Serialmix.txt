@@ -1,0 +1,40 @@
+Hi, and welcome to the first installment of Weekly Python Exercise B3! This week, we're going to experiment a bit with mixins.
+
+If you're familiar with objects, then you know that each class inherits from another class -- except for "object", which is at the root of the inheritance tree. (In Python, this means that object's __bases__ attribute is an empty tuple, rather than containing one or more classes.)  You can inherit from more than one class, if you want, although I would argue that this often makes things worse, rather than better.
+
+Mixins take advantage of multiple inheritance, in that you inherit from multiple classes.  However, the point of a mixin class is to add functionality -- either by defining a needed method that wasn't set in the main parent class, or to override a method in the main parent class. That is, you inherit from a main class, but then also inherit from a mixin class in order to change the behavior.  A mixin class will only define methods, and not define any data (attributes) of its own.
+
+This week, I want you to define a class, Serializable, that defines two methods, "dump" and "load".  If a class inherits from our Serializable class, then you can invoke "dump" and "load" on objects of that type, and it'll know how to use the "pickle" module from the standard Python library to save itself to disk, and load itself from disk.  A filename needs to be passed to "dump" and "load", so that the methods know with which file to work.
+
+I should thus be able to do the following:
+
+    class Book(Serializable):
+        def __init__(self, title, author, price):
+            self.title = title
+            self.author = author
+            self.price = price
+
+    b = Book("Python Workout", "Reuven Lerner", 39)
+    b.dump('book.data')      # book is now stored on disk, in pickle format
+
+    b2 = Book('blah title, 'blah author', 100)
+    b2.load('book.data')     # title, author, and price now reflect disk file
+
+The thing is, maybe we don't want to store the book info in "pickle" format.  Maybe we want to use CSV, or JSON, or XML.  I want you to define a class for each of these formats, so that I can do the following:
+    class Book(CSVMixin, Serializable):
+        def __init__(self, title, author, price):
+            self.title = title
+            self.author = author
+            self.price = price
+
+    b = Book("Python Workout", "Reuven Lerner", 39)
+    b.dump('book.csv')      # book is now stored on disk, in CSV format
+
+    b2 = Book('blah title', 'blah author', 100)
+    b2.load('book.csv')     # title, author, and price now reflect disk file
+
+You'll similarly create JSONMixin and XMLMixin.
+
+I'll be back on Monday with a solution.
+
+Reuven
