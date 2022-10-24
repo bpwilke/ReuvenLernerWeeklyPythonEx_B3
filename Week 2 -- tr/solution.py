@@ -10,6 +10,9 @@ def tr(instr, deststr):
             # add the last character of the input string
             deststr += lastcharacter
     
+    # Reuven solved this by using dict(zip(instr, deststr)) 
+    #
+    
     ## start the string replacement algorithm (encapsulate in a Function for returning)
     def returnFunction(characters):
         ## convert the input phrase (str) to a list
@@ -20,7 +23,7 @@ def tr(instr, deststr):
             for phrase_idx, character in enumerate(characters):
                 ## if it does -> replace it with the destination character
                 if character == inchar:
-                    outputString[phrase_idx] = deststr[char_idx]
+                    outputString[phrase_idx] = deststr[char_idx]   ## Since Reuven used a dict() in his solution. He used deststr.get(character, character) here
         ## put our string back together from list and return it
         return ''.join(outputString)
     return returnFunction 
